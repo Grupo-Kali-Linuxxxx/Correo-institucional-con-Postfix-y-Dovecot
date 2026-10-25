@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actividad 4: Correo Institucional Seguro — Defensa Grupal UPDS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: rgba(18, 24, 38, 0.90);
+      --border: rgba(255, 255, 255, 0.08);
+      --primary: #38bdf8;
+      --primary-glow: rgba(56, 189, 248, 0.35);
+      --accent: #818cf8;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --danger: #f87171;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --code-bg: #050811;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: radial-gradient(circle at 50% 20%, #151c2e 0%, var(--bg) 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* Barra superior */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.85rem 2rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(11, 15, 25, 0.7);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--primary);
+    }
+
+    .badge {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid var(--primary-glow);
+      color: var(--primary);
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .slide-counter {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Contenedor de Diapositivas */
+    main {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      max-width: 1180px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px) scale(0.98);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+      position: relative;
+    }
+
+    /* Componentes visuales */
+    .title-tag {
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .title-tag::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--primary);
+    }
+
+    h1 {
+      font-size: 2.3rem;
+      font-weight: 800;
+      line-height: 1.15;
+      background: linear-gradient(to right, #ffffff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h2 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .lead {
+      color: var(--text-muted);
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.85rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .code-box {
+      background: var(--code-bg);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: #38bdf8;
+      overflow-x: auto;
+      line-height: 1.45;
+    }
+
+    .code-box .comment { color: #64748b; }
+    .code-box .ok { color: #34d399; font-weight: 600; }
+    .code-box .err { color: #f87171; font-weight: 600; }
+    .code-box .warn { color: #fbbf24; }
+
+    ul.feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    ul.feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    ul.feature-list li strong {
+      color: #fff;
+    }
+
+    ul.feature-list li::before {
+      content: '✔';
+      color: var(--success);
+      font-weight: bold;
+    }
+
+    /* Tabla */
+    table.custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    table.custom-table th {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--primary);
+      text-align: left;
+      padding: 0.55rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    table.custom-table td {
+      padding: 0.55rem 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+    }
+
+    table.custom-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Barra inferior */
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.85rem 2rem;
+      border-top: 1px solid var(--border);
+      background: rgba(11, 15, 25, 0.8);
+      z-index: 10;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    button.btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    button.btn:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    button.btn-primary {
+      background: var(--primary);
+      color: #0b0f19;
+      border-color: var(--primary);
+    }
+
+    button.btn-primary:hover {
+      background: #7dd3fc;
+      color: #0b0f19;
+    }
+
+    .key-hint {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    kbd {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      padding: 0.15rem 0.4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+    }
+
+    .img-preview {
+      width: 100%;
+      height: 195px;
+      object-fit: contain;
+      background: #050811;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    /* Reglas para exportación e impresión a PDF */
+    @media print {
+      @page {
+        size: landscape;
+        margin: 0;
+      }
+      html, body {
+        background: #0b0f19 !important;
+        color: #f1f5f9 !important;
+        height: auto !important;
+        overflow: visible !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      header, footer, .nav-buttons, .key-hint {
+        display: none !important;
+      }
+      main {
+        display: block !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      .slide {
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        position: relative !important;
+        transform: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 100vh !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        padding: 2.2rem 2.8rem !important;
+        box-sizing: border-box !important;
+        justify-content: center !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra Superior -->
+  <header>
+    <div class="brand">
+      <span>✉️ Tecnología Web I</span>
+      <span class="badge">Actividad 04 (Grupal)</span>
+    </div>
+    <div class="slide-counter">
+      <span id="current-slide">1</span> / <span id="total-slides">12</span>
+    </div>
+  </header>
+
+  <!-- Diapositivas -->
+  <main>
+
+    <!-- Diapositiva 1: Portada -->
+    <div class="slide active">
+      <div class="title-tag">Universidad Privada Domingo Savio — Criterio C2 (10%)</div>
+      <h1>Correo Institucional Seguro con Postfix y Dovecot</h1>
+      <p class="lead">
+        Implementación, endurecimiento criptográfico (TLS 1.3, SPF, DKIM, DMARC), análisis forense de cabeceras, defensa antispam y plan estratégico de migración.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">👥 Equipo de Proyecto e Información Académica</div>
+          <ul class="feature-list">
+            <li><strong>Estudiante Principal:</strong> Ketfer Gianella Salazar</li>
+            <li><strong>Equipo de Trabajo:</strong> Charles Y. Conde, Brian Calás, Marco Barriga, Adaniel Balderrama</li>
+            <li><strong>Materia:</strong> Tecnología Web I (SIS-0150) — Semestre 6</li>
+            <li><strong>Docente Evaluador:</strong> M.Sc. Ing. Jimmy Nataniel Requena Llorentty</li>
+            <li><strong>Repositorio GitHub:</strong> <code>Grupo-Kali-Linuxxxx/Correo-institucional-con-Postfix-y-Dovecot</code></li>
+            <li><strong>Sede:</strong> Santa Cruz de la Sierra — Octubre 2026</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">🎯 Alcance y Puntos Cardinales de la Rúbrica</div>
+          <ul class="feature-list">
+            <li><strong>MTA & MDA:</strong> Postfix 3.8 + Dovecot 2.3 en Maildir/ con TLS obligatorio.</li>
+            <li><strong>Seguridad de Puertos:</strong> Puerto 143 cerrado; IMAPS 993 y Submission 587 con SASL.</li>
+            <li><strong>Tríada Criptográfica:</strong> SPF <code>-all</code>, DKIM RSA 2048-bit y DMARC <code>p=quarantine</code>.</li>
+            <li><strong>Nivel Estratégico (10/10):</strong> Análisis forense, Rspamd + ClamAV, política y plan de migración.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diapositiva 2: Ciclo de Vida del Correo -->
+    <div class="slide">
+      <div class="title-tag">Arquitectura de Red y Protocolos</div>
+      <h2>El Recorrido Completo: MUA → MSA → MTA → MDA → IMAPS</h2>
+      <p class="lead">Flujo extremo a extremo demostrando separación de roles y cifrado obligatorio en cada salto.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">🔄 Cadena de Entrega Inter-Dominio</div>
+          <div class="code-box" style="font-size: 0.76rem;">
+[1. MUA: Thunderbird / swaks]
+   │  TCP 587 (Submission) + STARTTLS + SASL
+   ▼
+[2. MSA/MTA Origen: mail.horizonte.internal]
+   │  • Anti-spoofing (reject_sender_login_mismatch)
+   │  • Firma OpenDKIM (DKIM-Signature RSA 2048)
+   ▼  Resolución MX: dig familia.internal MX
+[3. SMTP Relay Inter-MTA: TCP 25 + TLS 1.3]
+   ▼
+[4. MTA Destino: mail.familia.internal]
+   │  • Verificación SPF (Pass) & DKIM (Pass)
+   │  • Alineación DMARC (Pass) & Anti-Relay
+   ▼  Entrega Local en Maildir/
+[5. MDA / Dovecot IMAPS: TCP 993 + TLS]
+   ▼
+[6. MUA Destinatario: rosa.mamani@familia.internal]
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🛡️ Diferencias Esenciales entre Protocolos</div>
+          <table class="custom-table">
+            <thead>
+              <tr><th>Protocolo</th><th>Puerto</th><th>Función y Estado de Cifrado</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>SMTP</strong></td><td>25</td><td>Transporte inter-servidor (MTA a MTA). Cifrado oportunista/forzado STARTTLS.</td></tr>
+              <tr><td><strong>Submission</strong></td><td>587</td><td>Inyección de clientes (MUA a MSA). <strong>TLS + SASL obligatorio</strong>.</td></tr>
+              <tr><td><strong>IMAP (143)</strong></td><td>143</td><td><span class="err">❌ CLAUSURADO (port=0)</span>. Evita intercepción en texto claro.</td></tr>
+              <tr><td><strong>IMAPS</strong></td><td>993</td><td><span class="ok">✅ ACTIVO (TLS implícito)</span>. Sincronización segura de buzón.</td></tr>
+              <tr><td><strong>POP3</strong></td><td>110/995</td><td>Descarga y borrado local. Obsoleto para uso multidispositivo.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diapositiva 3: Lab 12 — Postfix y Control de Relé -->
+    <div class="slide">
+      <div class="title-tag">Laboratorio 12 — Servidor MTA Postfix</div>
+      <h2>Almacenamiento Maildir, Alias y Blindaje contra Relé Abierto</h2>
+      <p class="lead">Configuración segura en <code>mail.horizonte.internal</code> (10.10.10.25) con buzones jerárquicos.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">📸 Evidencia: Rechazo de Relé y Parámetros Postfix</div>
+          <img src="../evidencias/02_relay_rechazado_y_postconf.png" alt="Rechazo Relay" class="img-preview">
+          <div class="code-box">
+<span class="comment"># Prueba desde red externa hacia destino ajeno:</span>
+554 5.7.1 &lt;externo@otro.com&gt;: Relay access denied
+<span class="ok">✅ Postconf: smtpd_relay_restrictions activo</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">⚙️ Configuración Aplicada en main.cf</div>
+          <ul class="feature-list">
+            <li><strong>Formato Maildir:</strong> <code>home_mailbox = Maildir/</code> elimina el cuello de botella de bloqueo de archivos Mbox y aísla cada mensaje en archivos independientes.</li>
+            <li><strong>Control de Red:</strong> <code>mynetworks = 127.0.0.0/8, 10.10.10.50/32</code> autoriza únicamente el loopback y el nodo de administración.</li>
+            <li><strong>Alias Corporativos:</strong> <code>/etc/aliases</code> enruta <code>inscripciones</code> hacia <code>secretaria</code> y <code>direccion</code>.</li>
+            <li><strong>Bloqueo Anti-Relay:</strong> <code>smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diapositiva 4: Lab 13 — Dovecot IMAPS y Puerto 143 Cerrado -->
+    <div class="slide">
+      <div class="title-tag">Laboratorio 13 — Servidor MDA Dovecot</div>
+      <h2>Acceso Seguro a Buzones vía IMAPS (993) y Clausura del Puerto 143</h2>
+      <p class="lead">Protección total de credenciales y mensajes en tránsito eliminando accesos en texto plano.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">📸 Evidencia: IMAPS 993 Activo y 143 Denegado</div>
+          <img src="../evidencias/01_imaps_993_y_puerto_143_cerrado.png" alt="IMAPS 993 Activo" class="img-preview">
+          <div class="code-box">
+<span class="ok">* STATUS INBOX (MESSAGES 2 RECENT 0 UNSEEN 0)</span>
+<span class="err">curl: (7) Failed to connect to port 143: Connection refused</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🔐 Endurecimiento en 99-horizonte.conf</div>
+          <ul class="feature-list">
+            <li><strong>Cierre Estricto de IMAP 143:</strong> <code>inet_listener imap { port = 0 }</code> impide que Dovecot escuche en claro, mitigando ataques de captura pasiva (Wireshark).</li>
+            <li><strong>Certificados TLS Institucionales:</strong> Validación con la CA institucional mediante <code>ssl_cert = &lt;/etc/ssl/correo/servidor.crt</code>.</li>
+            <li><strong>Socket SASL para Postfix:</strong> Dovecot publica <code>/var/spool/postfix/private/auth</code> permitiendo autenticar clientes SMTP sin duplicar bases de datos.</li>
+            <li><strong>Clientes Homologados:</strong> Conexión validada para Thunderbird de usuarios directivos y docentes.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diapositiva 5: Submission 587 con TLS y SASL -->
+    <div class="slide">
+      <div class="title-tag">Laboratorio 13 — Envío Autenticado</div>
+      <h2>Servicio Submission en Puerto 587: TLS Obligatorio y Autenticación SASL</h2>
+      <p class="lead">Inyección de correos reservada exclusivamente a usuarios verificados con cifrado en tránsito.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">📸 Evidencia: Transacción Swaks por Puerto 587</div>
+          <img src="../evidencias/02_submission_587_autenticado.png" alt="Submission 587" class="img-preview">
+          <div class="code-box">
+~&gt; STARTTLS -&gt; 220 2.0.0 Ready to start TLS
+=== TLS negotiated: TLSv1.3 with cipher TLS_AES_256_GCM_SHA384
+~&gt; AUTH LOGIN -&gt; <span class="ok">235 2.7.0 Authentication successful</span>
+~&gt; MAIL FROM:... -&gt; <span class="ok">250 2.0.0 Ok: queued as 38D7F146EB</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">⚙️ Directivas Clave en master.cf</div>
+          <div class="code-box" style="font-size: 0.78rem;">
+submission inet n - y - - smtpd
+  -o smtpd_tls_security_level=encrypt
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_sasl_type=dovecot
+  -o smtpd_sasl_path=private/auth
+  -o smtpd_tls_auth_only=yes
+  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.5rem;">
+            <code>smtpd_tls_auth_only=yes</code> garantiza que Postfix <strong>no ofrece autenticación SASL</strong> hasta que la sesión negocie TLS 1.3, evitando la fuga accidental de hashes de contraseñas.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diapositiva 6: Mecanismo Anti-Suplantación (Anti-Spoofing) -->
+    <div class="slide">
+      <div class="title-tag">Endurecimiento de Remitente</div>
+      <h2>Control Anti-Suplantación (*Anti-Spoofing*) en Postfix</h2>
+      <p class="lead">Garantía estricta de que ningún usuario pueda emitir mensajes usurpando la identidad de otro colega.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">📸 Evidencia: Intercepción y Rechazo Código 553</div>
+          <img src="../evidencias/03_rechazo_remitente_ajeno_553.png" alt="Rechazo Anti Spoofing" class="img-preview">
+          <div class="code-box">
+<span class="comment"># Autenticado como secretaria, intentando enviar como rosario.vaca:</span>
+&lt;~ 553 5.7.1 &lt;rosario.vaca@horizonte.internal&gt;:
+<span class="err">Sender address rejected: not owned by user secretaria</span>
+<span class="ok">✅ Transacción abortada inmediatamente por el MTA</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🛡️ Lógica de Protección PCRE</div>
+          <ul class="feature-list">
+            <li><strong>Directiva de Coincidencia:</strong> <code>reject_sender_login_mismatch</code> obliga a Postfix a contrastar las credenciales SASL con el remitente en <code>MAIL FROM</code>.</li>
+            <li><strong>Tabla de Mapeo PCRE:</strong> <code>/etc/postfix/remitentes.pcre</code> define que la cuenta <code>secretaria</code> solo puede emitir como <code>secretaria@horizonte.internal</code> o bajo el alias institucional autorizado <code>inscripciones@horizonte.internal</code>.</li>
+            <li><strong>Mitigación de Phishing Interno:</strong> Impide que una cuenta comprometida sea utilizada por atacantes para enviar órdenes de pago o instrucciones fraudulentas fingiendo ser el Director General.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diapositiva 7: La Tríada Criptográfica DNS (SPF, DKIM, DMARC) -->
+    <div class="slide">
+      <div class="title-tag">Autenticación de Dominio</div>
+      <h2>La Tríada Criptográfica en BIND 9: SPF, OpenDKIM y DMARC</h2>
+      <p class="lead">Blindaje de la reputación institucional en los servidores DNS autoritativos (10.10.10.2 / 10.10.10.3).</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">📸 Evidencia: Verificación DNS con dig</div>
+          <img src="../evidencias/04_dns_spf_dkim_dmarc.png" alt="DNS SPF DKIM DMARC" class="img-preview">
+          <div class="code-box">
+<span class="ok">horizonte.internal. TXT "v=spf1 mx -all"</span>
+<span class="ok">mail._domainkey.horizonte.internal. TXT "v=DKIM1; k=rsa; p=MIIB..."</span>
+<span class="ok">_dmarc.horizonte.internal. TXT "v=DMARC1; p=quarantine; adkim=s..."</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">📜 Especificación de los Tres Pilares</div>
+          <ul class="feature-list">
+            <li><strong>SPF (RFC 7208):</strong> <code>v=spf1 mx -all</code>. Rechazo duro (<code>-all</code>) para cualquier host que no sea el registro MX del colegio (<code>mail.horizonte.internal</code>).</li>
+            <li><strong>DKIM (RFC 6376):</strong> Clave RSA de <strong>2048 bits</strong> gestionada por OpenDKIM con selector <code>mail</code>. Firma criptográfica del cuerpo (<code>bh=</code>) y cabeceras críticas.</li>
+            <li><strong>DMARC (RFC 7489):</strong> <code>p=quarantine</code> con alineación estricta en DKIM (<code>adkim=s</code>) y SPF (<code>aspf=s</code>), más reportes forenses agregados a <code>dmarc@horizonte.internal</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diapositiva 8: Análisis Forense de Cabeceras Reales -->
+    <div class="slide">
+      <div class="title-tag">Forense y Trazabilidad</div>
+      <h2>Análisis Forense de Cabeceras en Correo Recibido (Maildir)</h2>
+      <p class="lead">Mensaje real entregado en <code>rosa.mamani@familia.internal</code> extraído directamente del buzón de <code>mail2</code>.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">🔬 Fragmento de Cabeceras Binarias Reales</div>
+          <div class="code-box" style="font-size: 0.74rem;">
+Authentication-Results: mail.familia.internal;
+  <span class="ok">dkim=pass (2048-bit key)</span> header.d=horizonte.internal
+  header.a=rsa-sha256 header.s=mail;
+<span class="ok">Received-SPF: Pass</span> identity=mailfrom; client-ip=10.10.10.25;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=horizonte.internal; s=mail;
+  <span class="warn">bh=f0AAIg3b1m84xFQWPIV4asm4i9X+6LY7YkAnypd5vZE=;</span>
+  b=x4VW1TLfWCUss9e+TzOoiS7B...
+Received: from mail.horizonte.internal ([10.10.10.25])
+  by mail.familia.internal with <span class="ok">ESMTPS</span> id C41FE146F1;
+Received: from cliente ([10.10.10.50])
+  by mail.horizonte.internal with <span class="ok">ESMTPSA</span> id 7E8AE146EE;
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">💡 Hallazgos Forenses Clave</div>
+          <ul class="feature-list">
+            <li><strong>ESMTPSA vs ESMTPS:</strong> El primer salto muestra <code>ESMTPSA</code> demostrando envío en puerto 587 con TLS (<code>S</code>) y SASL (<code>A</code>). El segundo muestra <code>ESMTPS</code> (transferencia inter-MTA cifrada en puerto 25).</li>
+            <li><strong>Hash del Cuerpo (<code>bh=</code>):</strong> SHA-256 en base64. Si un atacante modifica un solo carácter del cuerpo, <code>bh=</code> no coincide y la firma queda invalidada.</li>
+            <li><strong>Alineación Estricta DMARC:</strong> Dominio <code>header.d=horizonte.internal</code> idéntico a <code>From: secretaria@horizonte.internal</code>, logrando verificación perfecta.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diapositiva 9: Investigación: ¿Por Qué los Correos Caen en Spam? -->
+    <div class="slide">
+      <div class="title-tag">Investigación Teórico-Práctica</div>
+      <h2>¿Por Qué los Correos Terminan en Spam? (Diagnóstico y Solución)</h2>
+      <p class="lead">Factores técnicos evaluados por proveedores globales (Gmail, Microsoft, Yahoo) y su solución aplicada.</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">1. SPF Laxo o Inexistente</div>
+          <p style="font-size: 0.82rem; color: var(--text-muted);">
+            Usar <code>~all</code> (softfail) o <code>?all</code> (neutral) permite a suplantadores enviar correo. Nuestra solución: <strong><code>v=spf1 mx -all</code></strong> con rechazo duro.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">2. Falta de DKIM / Clave Corta</div>
+          <p style="font-size: 0.82rem; color: var(--text-muted);">
+            Claves de 1024 bits son marcadas como inseguras. Implementamos <strong>OpenDKIM con RSA 2048-bit</strong> y canonización <code>relaxed/simple</code>.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">3. Falta de Alineación DMARC</div>
+          <p style="font-size: 0.82rem; color: var(--text-muted);">
+            Cuando el remitente visible no coincide con el envelope. Solucionado con <strong><code>p=quarantine; adkim=s; aspf=s</code></strong> y control anti-spoofing en Postfix.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">4. Sin DNS Inverso (PTR/FCrDNS)</div>
+          <p style="font-size: 0.82rem; color: var(--text-muted);">
+            Si la IP no resuelve al banner FQDN del MTA, es spam directo. Solución: <strong>PTR 10.10.10.25 → mail.horizonte.internal</strong> en zona reversa.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">5. Servidor Relé Abierto</div>
+          <p style="font-size: 0.82rem; color: var(--text-muted);">
+            Detectado por bots y añadido a listas negras (DNSBL/RBL). Bloqueado mediante <strong><code>reject_unauth_destination</code></strong> verificado con swaks.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">6. Canales en Texto Claro</div>
+          <p style="font-size: 0.82rem; color: var(--text-muted);">
+            Correos sin cifrar reciben advertencias de seguridad visuales. Garantizamos <strong>TLS 1.3 forzado</strong> en 587 y oportuno en puerto 25.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diapositiva 10: Nivel Estratégico — Rspamd y ClamAV Milter -->
+    <div class="slide">
+      <div class="title-tag">Rúbrica Nivel Estratégico (10/10)</div>
+      <h2>Arquitectura de Filtrado Antispam y Antivirus: Rspamd + ClamAV</h2>
+      <p class="lead">Diseño e integración de defensas multicapa en Postfix mediante el protocolo Milter.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">🛡️ Flujo de Inspección en Tiempo Real</div>
+          <div class="code-box" style="font-size: 0.76rem;">
+[ Postfix MTA (Puerto 25/587) ]
+        │  Protocolo Milter (inet:localhost:11332)
+        ▼
+[ Daemon Rspamd: Evaluación Multicapa ]
+   ├── Verificación Criptográfica: SPF, DKIM, DMARC
+   ├── Filtro Bayesiano Estadístico (Ham / Spam)
+   ├── Consulta de Listas Negras (DNSBL / RBL)
+   └── Análisis Fuzzy de URLs sospechosas
+        │  Socket UNIX clamd.ctl
+        ▼
+[ ClamAV Daemon: Escaneo Antivirus en Memoria ]
+   └── Detección de malware, macros maliciosas y ejecutables
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">⚖️ Sistema de Puntuación (Score) y Acciones</div>
+          <table class="custom-table">
+            <thead>
+              <tr><th>Símbolo / Evento</th><th>Puntaje</th><th>Acción Postfix</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>R_SPF_ALLOW</code> / <code>R_DKIM_ALLOW</code></td><td>-1.0 c/u</td><td>Resta puntuación (Legítimo).</td></tr>
+              <tr><td><code>R_SPF_FAIL</code> / <code>R_DKIM_REJECT</code></td><td>+3.5 c/u</td><td>Suma penalización alta.</td></tr>
+              <tr><td><code>BAYES_SPAM</code></td><td>+4.0</td><td>Detección por vocabulario spam.</td></tr>
+              <tr><td><strong>Score &lt; 6.0</strong></td><td>--</td><td><span class="ok">Aceptar y entregar en buzón</span>.</td></tr>
+              <tr><td><strong>Score 6.0 a 11.0</strong></td><td>--</td><td><span class="warn">Marcar [SPAM] y mover a Junk</span>.</td></tr>
+              <tr><td><strong>Score ≥ 11.0 o Virus ClamAV</strong></td><td>--</td><td><span class="err">Rechazo 554 en sesión SMTP</span>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diapositiva 11: Política Institucional y Plan de Migración -->
+    <div class="slide">
+      <div class="title-tag">Gestión y Migración Corporativa</div>
+      <h2>Política Institucional y Plan de Migración con IMAPSync</h2>
+      <p class="lead">Hoja de ruta estratégica para transferir 60 cuentas personales (Gmail/Hotmail) al dominio propio.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">📋 Política de Seguridad de Correo</div>
+          <ul class="feature-list">
+            <li><strong>Canal Oficial Exclusivo:</strong> Trámites de notas y tutores obligatorios por <code>@horizonte.internal</code>. Prohibido Gmail personal para asuntos del colegio.</li>
+            <li><strong>Límites y Cuotas:</strong> 25 MB máximo por adjunto; cuota de 5 GB para docentes y 15 GB para directores. Bloqueo de archivos <code>.exe, .vbs, .bat</code>.</li>
+            <li><strong>Cifrado y No Reenvío:</strong> IMAPS 993 y Submission 587 obligatorios. Prohibido el auto-forwarding hacia buzones externos.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">🗺️ Plan de Migración en 6 Fases (45 Días)</div>
+          <table class="custom-table">
+            <thead>
+              <tr><th>Fase</th><th>Días</th><th>Objetivo Clave</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>1. Censo y Cuentas</strong></td><td>1-5</td><td>Directorio de usuarios y aprovisionamiento Maildir.</td></tr>
+              <tr><td><strong>2. DNS Criptográfico</strong></td><td>6-8</td><td>Publicación MX, SPF, DKIM, DMARC y calentamiento IP.</td></tr>
+              <tr><td><strong>3. Capacitación</strong></td><td>9-14</td><td>Talleres docentes y configuración Thunderbird/móviles.</td></tr>
+              <tr><td><strong>4. IMAPSync</strong></td><td>15-21</td><td>Migración de históricos de correo y contactos sin pérdidas.</td></tr>
+              <tr><td><strong>5. Convivencia</strong></td><td>22-45</td><td>Auto-respuesta en cuentas viejas notificando cambio.</td></tr>
+              <tr><td><strong>6. Corte Definitivo</strong></td><td>46+</td><td>Uso 100% exclusivo del dominio y respaldos Restic.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diapositiva 12: Resultados Oficiales y Defensa Oral -->
+    <div class="slide">
+      <div class="title-tag">Resultados y Evaluación</div>
+      <h2>Verificación al 100% y Guía de Defensa Oral</h2>
+      <p class="lead">Certificación oficial superada y preparación para la defensa ante el M.Sc. Ing. Jimmy Requena.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">📸 Evidencia: 15 de 15 Comprobaciones Oficiales</div>
+          <img src="../evidencias/05_verificacion_15_de_15.png" alt="Verificación 15 de 15" class="img-preview">
+          <div class="code-box">
+<span class="ok">✅ MX y SPF -all publicados</span>
+<span class="ok">✅ DKIM RSA 2048 y DMARC quarantine activos</span>
+<span class="ok">✅ IMAPS 993 con certificado válido</span>
+<span class="ok">✅ IMAP en claro 143 cerrado</span>
+<span class="ok">✅ Envío 587 con TLS y SASL verificado</span>
+<span class="ok">Resultado: 15 de 15 comprobaciones</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🎓 Claves para la Defensa Oral</div>
+          <ul class="feature-list">
+            <li><strong>¿Por qué cerrar el 143?</strong> Para impedir que un atacante capture contraseñas en texto claro con un analizador de paquetes en la red local.</li>
+            <li><strong>¿Qué rol cumple el hash <code>bh=</code> en DKIM?</strong> Certifica la integridad del cuerpo del mensaje. Si alguien altera un solo espacio, la firma se invalida.</li>
+            <li><strong>¿Por qué DMARC exige alineación?</strong> Para vincular el dominio criptográfico de SPF/DKIM con el encabezado visible <code>From:</code>, impidiendo la falsificación visual de identidad.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Barra Inferior de Navegación -->
+  <footer>
+    <div class="key-hint">
+      Navegación: Usa <kbd>←</kbd> <kbd>→</kbd> o <kbd>Espacio</kbd>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn" id="btn-prev">Anterior</button>
+      <button class="btn btn-primary" id="btn-next">Siguiente</button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const currentSlideSpan = document.getElementById('current-slide');
+    const totalSlidesSpan = document.getElementById('total-slides');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    totalSlidesSpan.textContent = totalSlides;
+
+    function showSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+      currentIndex = index;
+
+      slides.forEach((slide, idx) => {
+        slide.classList.toggle('active', idx === currentIndex);
+      });
+
+      currentSlideSpan.textContent = currentIndex + 1;
+      btnPrev.disabled = currentIndex === 0;
+      btnNext.textContent = currentIndex === totalSlides - 1 ? 'Finalizar' : 'Siguiente';
+    }
+
+    btnPrev.addEventListener('click', () => showSlide(currentIndex - 1));
+    btnNext.addEventListener('click', () => {
+      if (currentIndex < totalSlides - 1) {
+        showSlide(currentIndex + 1);
+      } else {
+        showSlide(0);
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        if (currentIndex < totalSlides - 1) showSlide(currentIndex + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        if (currentIndex > 0) showSlide(currentIndex - 1);
+      } else if (e.key === 'Home') {
+        showSlide(0);
+      } else if (e.key === 'End') {
+        showSlide(totalSlides - 1);
+      }
+    });
+
+    showSlide(0);
+  </script>
+</body>
+</html>
+

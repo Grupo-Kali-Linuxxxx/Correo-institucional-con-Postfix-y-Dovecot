@@ -1,0 +1,14 @@
+# postfix/submission.txt — Reglas del servicio de ENVÍO para usuarios (puerto 587).
+# El instalador aplica cada línea con: postconf -P 'submission/inet/<línea>'
+syslog_name=postfix/submission
+# TLS obligatorio antes de cualquier otra cosa
+smtpd_tls_security_level=encrypt
+# Pedir usuario y contraseña (Dovecot los comprueba) y solo después de TLS
+smtpd_sasl_auth_enable=yes
+smtpd_tls_auth_only=yes
+# Solo usuarios autenticados pueden enviar; el resto se rechaza
+smtpd_relay_restrictions=permit_sasl_authenticated,reject
+smtpd_recipient_restrictions=permit_sasl_authenticated,reject
+# Cada usuario solo puede usar SU propia dirección como remitente
+smtpd_sender_login_maps=pcre:/etc/postfix/remitentes.pcre
+smtpd_sender_restrictions=reject_sender_login_mismatch

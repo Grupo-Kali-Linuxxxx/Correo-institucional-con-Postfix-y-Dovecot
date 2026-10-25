@@ -1,0 +1,37 @@
+# postfix/horizonte.cf — Ajustes de Postfix del colegio. El instalador aplica cada línea con: postconf -e 'clave = valor'
+# (postconf es la forma oficial de editar /etc/postfix/main.cf; postconf -n muestra lo que cambiaste)
+
+# Identidad
+myhostname = mail.horizonte.internal
+mydomain = horizonte.internal
+myorigin = $mydomain
+# Saludo sin revelar el sistema operativo
+smtpd_banner = $myhostname ESMTP
+
+# ¿Para qué dominios ACEPTO correo como destino final?
+mydestination = $myhostname, $mydomain, localhost.$mydomain, localhost
+
+# ¿Quiénes pueden usarme para ENVIAR a otros dominios (relay)? Solo el propio servidor y la PC de secretaría.
+mynetworks = 127.0.0.0/8, 10.10.10.50/32
+
+inet_interfaces = all
+inet_protocols = ipv4
+
+# Entrega local en formato Maildir (un archivo por correo; lo leerá Dovecot en la clase 13)
+home_mailbox = Maildir/
+
+# Higiene y anti-abuso
+disable_vrfy_command = yes
+smtpd_helo_required = yes
+smtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination
+smtpd_recipient_restrictions = reject_non_fqdn_recipient, reject_unknown_recipient_domain
+message_size_limit = 26214400
+
+# TLS oportunista (STARTTLS). Certificado de prueba de Ubuntu por ahora; en la clase 13 uno de la CA del colegio.
+smtpd_tls_security_level = may
+smtp_tls_security_level = may
+smtp_tls_loglevel = 1
+smtpd_tls_loglevel = 1
+
+# Registro en archivo propio (en contenedores no hay rsyslog)
+maillog_file = /var/log/mail.log

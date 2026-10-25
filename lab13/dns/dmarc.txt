@@ -1,0 +1,3 @@
+; Política DMARC del colegio: los correos que digan ser de @horizonte.internal y no pasen SPF o DKIM alineados
+; van a cuarentena (spam); los informes diarios llegan a dmarc@. adkim/aspf=s: alineación estricta.
+_dmarc  IN  TXT  "v=DMARC1; p=quarantine; rua=mailto:dmarc@horizonte.internal; ruf=mailto:dmarc@horizonte.internal; adkim=s; aspf=s"

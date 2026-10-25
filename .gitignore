@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+.venv/
+env/
+venv/
+
+# Temporales de Office / Word
+~$*.docx
+~$*.pptx
+*.tmp
+
+# Logs del sistema / Docker temporales
+*.log
+.DS_Store
+Thumbs.db
+

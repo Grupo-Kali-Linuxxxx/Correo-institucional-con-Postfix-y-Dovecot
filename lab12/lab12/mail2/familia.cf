@@ -1,0 +1,12 @@
+# mail2/familia.cf — Postfix de familia.internal (el "otro" servidor, para probar correo entre dominios)
+myhostname = mail.familia.internal
+mydomain = familia.internal
+myorigin = $mydomain
+mydestination = $myhostname, $mydomain, localhost
+mynetworks = 127.0.0.0/8
+inet_interfaces = all
+inet_protocols = ipv4
+home_mailbox = Maildir/
+smtpd_tls_security_level = may
+smtp_tls_security_level = may
+maillog_file = /var/log/mail.log

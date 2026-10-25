@@ -1,0 +1,3 @@
+mail._domainkey	IN	TXT	( "v=DKIM1; h=sha256; k=rsa; "
+	  "p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzRSttTjj46j1QObqqkF7Svhv3j8MZpc6yRHF/s9HUFVtaq8uG7kxoZiw52cCju4AJ9iIIzr7B8Xex0MDYunXs0jW7j776m9zQxTGUPNcc4LgQG+bvwGrot0J3PyAlSIlnVxgnlay9qL5xIQJ9SnSTXPlqChHKWah6kUBVVY0bkgoweFXx+pAq8a8qxt2xweFyA+LUpaQF7WQPa"
+	  "5vYR1oQ/4DXV9zcP149S5YHZpqC/igC75GsGxwNX+l7u0hDfMendOPFBD9r4PhqLcyDmtSyjdCqDTKS/BapFLiY5rlGvwhATuLccIN2waJ9aPG8B8l2zvY/h09bpVf0k0pHPrfzQIDAQAB" )  ; ----- DKIM key mail for horizonte.internal

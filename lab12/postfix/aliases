@@ -1,0 +1,7 @@
+# /etc/aliases — Direcciones del colegio que no son personas. Después de editar: newaliases
+postmaster: ti
+abuse: ti
+root: ti
+direccion: rosario.vaca
+secretaria: secretaria
+inscripciones: secretaria, direccion
